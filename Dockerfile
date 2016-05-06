@@ -3,9 +3,6 @@
 FROM ubuntu:14.04
 MAINTAINER Nikolay Beketov <nbek@miko.ru>
 
-ZATO_ENV=/opt/zato/env/qs-1
-ZATO_BIN=/opt/zato/current/bin/zato
-
 # Install helper programs used during Zato installation
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
@@ -41,6 +38,8 @@ EXPOSE 22 6379 8183 17010 17011 11223
 # Get additional config files and starter scripts
 WORKDIR /opt/zato
 RUN wget -P /opt/zato -i https://raw.githubusercontent.com/zatosource/zato-build/master/docker/quickstart-dh/filelist
+RUN cd /opt/zato/ && rm create_quickstart.sh && \
+wget -P /opt/zato https://raw.githubusercontent.com/jorikfon/zatoesb/master/create_quickstart.sh
 RUN chmod 755 /opt/zato/zato_start_load_balancer \
               /opt/zato/zato_start_server1 \
               /opt/zato/zato_start_server2 \
@@ -48,9 +47,5 @@ RUN chmod 755 /opt/zato/zato_start_load_balancer \
               /opt/zato/generate_password_zato_user.sh \
               /opt/zato/generate_password_web_admin.sh \
               /opt/zato/create_quickstart.sh \
-              /opt/zato/start.sh && \
-    su - zato -c "rm -rf $ZATO_ENV && mkdir -p $ZATO_ENV" && \
-    su - zato -c"$ZATO_BIN quickstart create $ZATO_ENV mysql localhost 6379 --kvdb_password '' --odb_host mysql.miko.ru --odb_port 3306 --odb_user zatouser --odb_db_name zatodb --odb_password zatouser#1 --cluster_name mikocluster --servers 2 --verbose"
-
-
+              /opt/zato/start.sh
 USER root
