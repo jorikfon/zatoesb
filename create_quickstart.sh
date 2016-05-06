@@ -29,3 +29,4 @@ $ZATO_BIN from-config /opt/zato/update_password.config
 # Make sure zato user have ownership of all files in /opt/zato directory
 echo "Setting ownership of /opt/zato:"
 chown -R zato:zato /opt/zato
+/opt/zato/start.sh
