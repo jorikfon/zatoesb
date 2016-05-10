@@ -19,12 +19,12 @@ echo 'zato':$(cat /opt/zato/zato_user_password) > /opt/zato/change_zato_password
 chpasswd < /opt/zato/change_zato_password
 
 # Set a password for web admin and append it to a config file
-echo "Setting up a password for web admin:"
-touch /opt/zato/web_admin_password
-chown zato:zato /opt/zato/web_admin_password
-uuidgen > /opt/zato/web_admin_password
-echo 'password'=$(cat /opt/zato/web_admin_password) >> /opt/zato/update_password.config
-$ZATO_BIN from-config /opt/zato/update_password.config
+#echo "Setting up a password for web admin:"
+#touch /opt/zato/web_admin_password
+#chown zato:zato /opt/zato/web_admin_password
+#uuidgen > /opt/zato/web_admin_password
+#echo 'password'=$(cat /opt/zato/web_admin_password) >> /opt/zato/update_password.config
+#$ZATO_BIN from-config /opt/zato/update_password.config
 
 # Make sure zato user have ownership of all files in /opt/zato directory
 echo "Setting ownership of /opt/zato:"
